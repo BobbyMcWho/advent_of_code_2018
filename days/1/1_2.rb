@@ -16,19 +16,23 @@ class DuplicateFrequencyFinder
     end
     seen_frequencies = {0 => 1}
     current_frequency = 0
-    duplicate_frequency = nil
-    until duplicate_frequency
-      frequencies.each do |frequency|
-        current_frequency += frequency
-        if seen_frequencies[current_frequency]
-          duplicate_frequency = current_frequency
-          break
-        else
-          seen_frequencies[current_frequency] = 1
-        end
-      end
+    frequencies.cycle do |frequency|
+      current_frequency += frequency
+      return current_frequency if seen_frequencies[current_frequency]
+      seen_frequencies[current_frequency] = 1
     end
-    duplicate_frequency
+    # until duplicate_frequency
+    #   frequencies.each do |frequency|
+    #     current_frequency += frequency
+    #     if seen_frequencies[current_frequency]
+    #       duplicate_frequency = current_frequency
+    #       break
+    #     else
+    #       seen_frequencies[current_frequency] = 1
+    #     end
+    #   end
+    # end
+    # duplicate_frequency
   end
 
   private_class_method
